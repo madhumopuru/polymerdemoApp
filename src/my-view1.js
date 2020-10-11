@@ -28,7 +28,9 @@ class MyView1 extends PolymerElement {
           align-items: center;
           margin: 10px 24px;
           position: relative;
+          
         }
+       
         .pro_img{
           width: 50%;
           float: left;
@@ -55,6 +57,24 @@ class MyView1 extends PolymerElement {
           text-decoration: underline;
           color: blue;
         }
+        .pro_details p{
+          margin: 5px 0px;
+        }
+
+        @media screen and (max-width: 500px) {
+          .card {
+            display: block;
+            text-align: center;
+          }
+          .pro_img {
+            width: 100% !important;
+            float: left !important;
+          }
+          .pro_details {
+            width: 100% !important;
+            float: left !important;
+          }
+        }
       </style>
 
       <template is="dom-if" if="{{showerrorProduct}}">
@@ -65,7 +85,7 @@ class MyView1 extends PolymerElement {
       <template is="dom-repeat" items="{{selectedProducts}}">
         <div class="card">
         <div class="add_product">
-           <span on-click="deleteProduct" class="delete_prod">delete</span>
+           <span on-click="deleteProduct" class="delete_prod"><img src="https://img.icons8.com/windows/50/000000/delete-forever.png"/></span>
          </div>
             <div class="pro_img""> <img src=[[item.selectepimage]]>
             </div>
@@ -100,13 +120,14 @@ class MyView1 extends PolymerElement {
   ready() {
     super.ready();
     this.selectedProducts = JSON.parse(localStorage.getItem("details"));
-    if(this.selectedProducts === null){
+    console.log(this.selectedProducts)
+    if(this.selectedProducts === null || this.selectedProducts.length === 0){
       this.showerrorProduct = true;
     }
   }
   deleteProduct(e) {
     let index = e.model.index
-    alert(index)
+    //alert(index)
      this.selectedProducts.splice(index,1);
      localStorage.setItem('details', JSON.stringify( this.selectedProducts));
      this.count=this.count-1;

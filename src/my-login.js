@@ -182,7 +182,7 @@ class MyLogin extends PolymerElement {
         handleClick(){
           if (this.nameInput == null || this.nameInput == undefined || this.nameInput == '')
           {
-             this.nameerror = 'Please Enter Name';
+             this.nameerror = 'Please Enter User Name';
              return false;
           }
           else{

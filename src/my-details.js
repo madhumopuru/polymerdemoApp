@@ -30,6 +30,7 @@ class MyDetails extends PolymerElement {
         @media screen and (max-width: 450px) {
             .card {
                 width: calc(100% - 52px);
+                text-align: center;
             }
           }
           @media screen and (min-width: 450px) and (max-width: 750px){
@@ -48,7 +49,7 @@ class MyDetails extends PolymerElement {
           margin-bottom: 10px;
         }
         .pro_img img{
-          width: 100%;
+          width: 50%;
         }
         .pro_details{
           width: 100%;
@@ -164,20 +165,18 @@ class MyDetails extends PolymerElement {
           return [
             {prodimage:"https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTtnwVtd4v8AgQK3ISM8_4CfW2PI7m7v1fzCNo4DoWpa5xBD5qEBLGyDgxe0km6JHZ1s7bZKr-5hFo&usqp=CAc", prodname: 'Lenovo s4 8gb', prodcost: '$42,506',prodSite: 'Amezon', proddelivery: 'Free Delivery' },
             {prodimage:"https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRuE7qO_FOWCxyuPNoRGMmTmqiPjwWoY0HCPb2ijj2Zpwckl6o_cowKdx90Ey15ZlMvYFKA8PD82g&usqp=CAc", prodname: 'Mi Intel core 8gb', prodcost: '$62,506',prodSite: 'FlipCart', proddelivery: 'Free Delivery' },
-            {prodimage:"https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTtnwVtd4v8AgQK3ISM8_4CfW2PI7m7v1fzCNo4DoWpa5xBD5qEBLGyDgxe0km6JHZ1s7bZKr-5hFo&usqp=CAc", prodname: 'HP I8 s4 6gb', prodcost: '$45,506',prodSite: 'Reliance Digital', proddelivery: 'Free Delivery' },
+            {prodimage:"https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQiLPoEyvzb0lLRv9vvJtXpuJnJlL6ocuDn6WNNC_LUzvoRULulag_KgaVycrluZCfA_6_k97aBZa8&usqp=CAc", prodname: 'HP I8 s4 6gb', prodcost: '$45,506',prodSite: 'Reliance Digital', proddelivery: 'Free Delivery' },
             {prodimage:"https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQE0tbu5bqFo0Y-SFye13isTouFRSviDWGtX0h7Fujfk6kvOQMIonTt3QVrxThcVDvTSfCwGl0YwAs&usqp=CAc", prodname: 'MI Notebook Silver', prodcost: '$35,506',prodSite: 'Amezon', proddelivery: 'Free Delivery' },
             {prodimage:"https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTtnwVtd4v8AgQK3ISM8_4CfW2PI7m7v1fzCNo4DoWpa5xBD5qEBLGyDgxe0km6JHZ1s7bZKr-5hFo&usqp=CAc", prodname: 'Lenovo Idepad 8gb', prodcost: '$60,506',prodSite: 'Flipcart', proddelivery: 'Free Delivery' },
+            {prodimage:"https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTlIn8GFmShcRiDq71nEB_KCGKHyK0U8bNE2K2X6RMA7nvaHrXOGssr-kH0cg0mKDHyhQoqBD6R0w&usqp=CAc", prodname: 'HP 14 10th Generation', prodcost: '$67,506',prodSite: 'Amezon', proddelivery: 'Delivery Cost 100 Rs' },
+
           ];
         }
       },
       
       selectedproduct: {
         type: Array,
-        value() {
-          return [
-          
-          ];
-        },
+        value: []
         },
         count: {
           type: Number,
@@ -188,12 +187,18 @@ class MyDetails extends PolymerElement {
   }
 
   ready() {
+  
     super.ready();
-   
-    if(this.selectedproduct.length !== 0){
-       let selectedproddetail = JSON.parse(localStorage.getItem("details"));
-       this.selectedproduct.push(selectedproddetail)
-    }
+    let selcetedprodts = JSON.parse(localStorage.getItem("details"));
+   // console.log(this.selcetedprodts)
+    if(selcetedprodts != undefined){
+      // alert("hi")
+       this.selectedproduct= selcetedprodts
+     }
+  
+    //console.log(this.selectedproduct)
+ 
+    
     this.count = localStorage.getItem("count");
    
   }
@@ -205,7 +210,7 @@ class MyDetails extends PolymerElement {
       parms["selectepCost"] = this.productList[index].prodcost;
       parms["selectepimage"] = this.productList[index].prodimage;
        this.selectedproduct.push(parms)
-       console.log(this.selectedproduct)
+      // console.log(this.selectedproduct)
        this.count++;
        localStorage.setItem('count', this.count);
        localStorage.setItem('details', JSON.stringify( this.selectedproduct));

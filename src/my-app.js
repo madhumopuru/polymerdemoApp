@@ -84,7 +84,7 @@ class MyApp extends PolymerElement {
           <app-toolbar>Menu</app-toolbar>
           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
             <a name="productDetails" href="[[rootPath]]productDetails">Product Details</a>
-            <a name="view1" href="[[rootPath]]view1"> Selected Details</a>
+            <a name="view1" href="[[rootPath]]view1"> Selected Products</a>
           </iron-selector>
         </app-drawer>
         </template>
@@ -97,8 +97,11 @@ class MyApp extends PolymerElement {
               <paper-icon-button icon="my-icons:menu" drawer-toggle=""></paper-icon-button>
               <div main-title="">My Products</div>
               <template is="dom-if" if="{{showSideNavBar}}">
-                <div style="cursor: pointer" on-click="logout">
-                  <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16 10v-5l8 7-8 7v-5h-8v-4h8zm-16-8v20h14v-2h-12v-16h12v-2h-14z"/></svg>
+                <div title="Logout" style="cursor: pointer" on-click="logout">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" style="width: 40px;"
+                width="64" height="64" 
+                viewBox="0 0 172 172"
+                style=" fill:#000000;"><g fill="none" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,172v-172h172v172z" fill="none"></path><g fill="#ffffff"><path d="M86,6.88c-43.6552,0 -79.12,35.4648 -79.12,79.12c0,43.6552 35.4648,79.12 79.12,79.12c26.17935,0 49.42112,-12.74611 63.81469,-32.36422c0.77173,-0.98775 0.94516,-2.31706 0.4527,-3.46975c-0.49247,-1.15269 -1.57289,-1.94631 -2.82011,-2.0715c-1.24722,-0.12519 -2.46382,0.43787 -3.17555,1.46969c-13.14707,17.91917 -34.32338,29.55578 -58.27172,29.55578c-39.9368,0 -72.24,-32.3032 -72.24,-72.24c0,-39.9368 32.3032,-72.24 72.24,-72.24c23.94833,0 45.12464,11.63661 58.27172,29.55578c0.71174,1.03182 1.92834,1.59488 3.17555,1.46969c1.24722,-0.12519 2.32764,-0.91881 2.82011,-2.0715c0.49247,-1.15269 0.31903,-2.482 -0.4527,-3.46975c-14.39357,-19.61811 -37.63534,-32.36422 -63.81469,-32.36422zM134.1264,55.0064c-1.39982,0.00037 -2.65984,0.84884 -3.18658,2.14577c-0.52674,1.29693 -0.21516,2.7837 0.78799,3.76001l21.64781,21.64781h-74.25563c-1.24059,-0.01754 -2.39452,0.63425 -3.01993,1.7058c-0.62541,1.07155 -0.62541,2.39684 0,3.46839c0.62541,1.07155 1.77935,1.72335 3.01993,1.7058h74.25563l-21.64781,21.64781c-0.89867,0.86281 -1.26068,2.14404 -0.94641,3.34956c0.31427,1.20552 1.2557,2.14696 2.46122,2.46122c1.20552,0.31427 2.48675,-0.04774 3.34956,-0.94641l27.21766,-27.21765c0.85429,-0.65168 1.35506,-1.66508 1.35374,-2.73956c-0.00132,-1.07448 -0.50457,-2.08664 -1.36046,-2.73623l-27.21094,-27.21094c-0.64765,-0.66575 -1.53698,-1.04135 -2.46578,-1.04141z"></path></g></g></svg>
                 </div>
               </template>
              </app-toolbar>
