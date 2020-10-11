@@ -15,20 +15,104 @@ class MyView1 extends PolymerElement {
   static get template() {
     return html`
       <style include="shared-styles">
+      <style include="shared-styles">
         :host {
           display: block;
 
           padding: 10px;
         }
+        .card{
+          width: calc(100% - 82px);
+          float: left;
+          display: flex;
+          align-items: center;
+          margin: 10px 24px;
+          position: relative;
+        }
+        .pro_img{
+          width: 50%;
+          float: left;
+        }
+        .pro_details{
+          width: 50%;
+          float: left;
+        }
+        .no_prodcuts{
+          height: 400px;
+          justify-content: center;
+          align-items: center;
+          display: flex;
+          width: 100%;
+          font-size: 23px;
+          color: red;
+          font-family: auto;
+        }
+        .delete_prod{
+          position: absolute;
+          right: 15px;
+          top: 10px;
+          cursor: pointer;
+          text-decoration: underline;
+          color: blue;
+        }
       </style>
 
-      <div class="card">
-        <div class="circle">1</div>
-        <h1>View One</h1>
-        <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
-        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
-      </div>
+      <template is="dom-if" if="{{showerrorProduct}}">
+        <div class="card">
+          <p class="no_prodcuts">No Selected Products</p>
+        </div>
+      </template>
+      <template is="dom-repeat" items="{{selectedProducts}}">
+        <div class="card">
+        <div class="add_product">
+           <span on-click="deleteProduct" class="delete_prod">delete</span>
+         </div>
+            <div class="pro_img""> <img src=[[item.selectepimage]]>
+            </div>
+            <div class="pro_details">
+                <span>[[item.selectedpname]]</span>
+                <p><b>[[item.selectepCost]]</b></p>
+              
+            </div>
+           
+        </div>
+      </template>
     `;
+  }
+  static get properties() {
+    return {
+      
+      selectedProducts: {
+        type: Array,
+        value: []
+      },
+      showerrorProduct: {
+        type: Boolean,
+        value: false
+      },
+      count: {
+        type: Number,
+        value: localStorage.getItem("count"),
+      },
+    };
+  }
+
+  ready() {
+    super.ready();
+    this.selectedProducts = JSON.parse(localStorage.getItem("details"));
+    if(this.selectedProducts === null){
+      this.showerrorProduct = true;
+    }
+  }
+  deleteProduct(e) {
+    let index = e.model.index
+    alert(index)
+     this.selectedProducts.splice(index,1);
+     localStorage.setItem('details', JSON.stringify( this.selectedProducts));
+     this.count=this.count-1;
+     localStorage.setItem('count', this.count);
+     this.selectedProducts =  this.selectedProducts = JSON.parse(localStorage.getItem("details"));
+     
   }
 }
 

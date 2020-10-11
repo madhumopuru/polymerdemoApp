@@ -10,25 +10,41 @@
 
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import './shared-styles.js';
+import '@polymer/polymer/lib/elements/dom-repeat.js';
 
 class MyView2 extends PolymerElement {
   static get template() {
     return html`
       <style include="shared-styles">
-        :host {
-          display: block;
+      <style include="shared-styles">
+      :host {
+        display: block;
 
-          padding: 10px;
-        }
+        padding: 10px;
+      }
+
       </style>
 
       <div class="card">
-        <div class="circle">2</div>
+        <div class="circle">3</div>
         <h1>View Two</h1>
-        <p>Ea duis bonorum nec, falli paulo aliquid ei eum.</p>
-        <p>Id nam odio natum malorum, tibique copiosae expetenda mel ea.Detracto suavitate repudiandae no eum. Id adhuc minim soluta nam.Id nam odio natum malorum, tibique copiosae expetenda mel ea.</p>
+        <p>Modus commodo minimum eum te, vero utinam assueverit per eu.</p>
+        <p>Ea duis bonorum nec, falli paulo aliquid ei eum.Has at minim mucius aliquam, est id tempor laoreet.Pro saepe pertinax ei, ad pri animal labores suscipiantur.</p>
       </div>
     `;
+  }
+  static get properties() {
+    return {
+      employees: {
+        type: Array,
+        value() {
+          return [
+            {given: 'Kamil', family: 'Smith'},
+            {given: 'Sally', family: 'Johnson'},
+          ];
+        }
+      }
+    };
   }
 }
 

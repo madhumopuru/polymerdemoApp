@@ -23,12 +23,10 @@ import '@polymer/iron-selector/iron-selector.js';
 import '@polymer/paper-icon-button/paper-icon-button.js';
 import './my-icons.js';
 
-// Gesture events like tap and track generated from touch will not be
-// preventable, allowing for better scrolling performance.
+
 setPassiveTouchGestures(true);
 
-// Set Polymer's root path to the same value we passed to our service worker
-// in `index.html`.
+
 setRootPath(MyAppGlobals.rootPath);
 
 class MyApp extends PolymerElement {
@@ -73,40 +71,50 @@ class MyApp extends PolymerElement {
         }
       </style>
 
-      <app-location route="{{route}}" url-space-regex="^[[rootPath]]">
+      <app-location route="{{route}}" url-space-regex="^[[rootPath]]"  data="{{routeData}}" >
       </app-location>
 
       <app-route route="{{route}}" pattern="[[rootPath]]:page" data="{{routeData}}" tail="{{subroute}}">
       </app-route>
 
-      <app-drawer-layout fullbleed="" narrow="{{narrow}}">
+      <app-drawer-layout fullbleed="" narrow="{{narrow}}" >
         <!-- Drawer content -->
+        <template is="dom-if" if="{{showSideNavBar}}">
         <app-drawer id="drawer" slot="drawer" swipe-open="[[narrow]]">
           <app-toolbar>Menu</app-toolbar>
           <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-            <a name="view1" href="[[rootPath]]view1">View One</a>
-            <a name="view2" href="[[rootPath]]view2">View Two</a>
-            <a name="view3" href="[[rootPath]]view3">View Three</a>
+            <a name="productDetails" href="[[rootPath]]productDetails">Product Details</a>
+            <a name="view1" href="[[rootPath]]view1"> Selected Details</a>
           </iron-selector>
         </app-drawer>
-
+        </template>
+    
         <!-- Main content -->
-        <app-header-layout has-scrolling-region="">
+        <app-header-layout has-scrolling-region="" >
 
-          <app-header slot="header" condenses="" reveals="" effects="waterfall">
+          <app-header slot="header" condenses="" reveals="" effects="waterfall"  >
             <app-toolbar>
               <paper-icon-button icon="my-icons:menu" drawer-toggle=""></paper-icon-button>
-              <div main-title="">My App</div>
-            </app-toolbar>
+              <div main-title="">My Products</div>
+              <template is="dom-if" if="{{showSideNavBar}}">
+                <div style="cursor: pointer" on-click="logout">
+                  <svg style="color: white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16 10v-5l8 7-8 7v-5h-8v-4h8zm-16-8v20h14v-2h-12v-16h12v-2h-14z"/></svg>
+                </div>
+              </template>
+             </app-toolbar>
+            
           </app-header>
 
           <iron-pages selected="[[page]]" attr-for-selected="name" role="main">
             <my-view1 name="view1"></my-view1>
             <my-view2 name="view2"></my-view2>
             <my-view3 name="view3"></my-view3>
+            <my-login name="login"></my-login>
+            <my-details name="productDetails"></my-details>
             <my-view404 name="view404"></my-view404>
           </iron-pages>
         </app-header-layout>
+    
       </app-drawer-layout>
     `;
   }
@@ -119,7 +127,15 @@ class MyApp extends PolymerElement {
         observer: '_pageChanged'
       },
       routeData: Object,
-      subroute: Object
+      subroute: Object,
+      showSideNav:{
+        type: Boolean,
+        value: true
+      } ,
+      showSideNavBar: {
+        type: Boolean,
+        value: true
+      },
     };
   }
 
@@ -128,32 +144,42 @@ class MyApp extends PolymerElement {
       '_routePageChanged(routeData.page)'
     ];
   }
-
+  logout(){
+    localStorage.clear();
+    this.set("route.path", "/login")
+  }
   _routePageChanged(page) {
-     // Show the corresponding page according to the route.
-     //
-     // If no page was found in the route data, page will be an empty string.
-     // Show 'view1' in that case. And if the page doesn't exist, show 'view404'.
+
     if (!page) {
-      this.page = 'view1';
-    } else if (['view1', 'view2', 'view3'].indexOf(page) !== -1) {
+      this.page = 'login';
+    } else if (['view1', 'view2', 'view3', 'login','productDetails'].indexOf(page) !== -1) {
       this.page = page;
     } else {
       this.page = 'view404';
     }
 
-    // Close a non-persistent drawer when the page & route are changed.
-    if (!this.$.drawer.persistent) {
-      this.$.drawer.close();
+    if(this.page == 'login'){
+      this.showSideNav = false;
+      this.showSideNavBar = false;
+    }
+    else {
+      this.showSideNav = true;
+      this.showSideNavBar = true;
+    }
+
+    var drawer = this.shadowRoot.getElementById('drawer');
+    if (drawer&& drawer.persistent) {
+      drawer.open();
     }
   }
 
   _pageChanged(page) {
-    // Import the page component on demand.
-    //
-    // Note: `polymer build` doesn't like string concatenation in the import
-    // statement, so break it up.
+   
     switch (page) {
+     
+        case 'productDetails':
+        import('./my-details.js');
+        break;
       case 'view1':
         import('./my-view1.js');
         break;
@@ -166,6 +192,9 @@ class MyApp extends PolymerElement {
       case 'view404':
         import('./my-view404.js');
         break;
+        case 'login':
+          import('./my-login.js');
+          break;
     }
   }
 }
